@@ -2,25 +2,22 @@ import React from 'react';
 
 const LoginForm=()=>{
 	return(
-		<div className="container">
-			<div className="row">
-			<h1 >Log in </h1>
-				<div>
-					<form action="/login" method="post">
-						<div className="form-group">
-							<input className="form-control" type="text" name="username" placeholder="username" />
-						</div>
-						<div class="form-group">
-							<input className="form-control" type="password" name="password" placeholder="password" />
-						</div>
-						<div classNameName="form-group">
-							<input className="btn btn-primary btn-lg btn-block" type="submit" />
-						</div>	
-					</form>
-				</div>
-				
+		<form class="ui form">
+			<div class="field">
+				<label>First Name</label>
+				<input type="text" name="first-name" placeholder="First Name"/>
 			</div>
-		</div>
+			<div class="field">
+				<label>Last Name</label>
+				<input type="text" name="last-name" placeholder="Last Name"/>
+			</div>
+			<div class="field">
+				<div class="ui checkbox">
+				<input type="checkbox" tabindex="0" class="hidden"/>
+				</div>
+			</div>
+			<button class="ui button" type="submit">Submit</button>
+		</form>
 		)
 };
 
