@@ -12,3 +12,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+input , select{
+  max-width:  300px !important;
+}
+
+form{
+  margin: auto auto;
+
+}

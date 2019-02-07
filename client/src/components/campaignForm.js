@@ -6,7 +6,7 @@ const AddCampaign=()=>{
 		<form class="ui form">
 			<div class="field">
 				<label>Rule Name</label>
-				<input type="text" name="campaign-name" placeholder="First Name"/>
+				<input type="text" name="rule-name" placeholder="Rule Name"/>
 			</div>
 			<div class="field">
 				<label>Campaign</label>
@@ -19,6 +19,10 @@ const AddCampaign=()=>{
                 </select>	
             </div>
 			<div class="field">
+				<label>Schedule</label>
+				<input type="text" name="schedule" placeholder="15 mins"/>
+			</div>
+			<div class="field">
 				<div class="ui checkbox">
 				<input type="checkbox" tabindex="0" class="hidden"/>
 				<label>eCPM </label>
@@ -27,15 +31,14 @@ const AddCampaign=()=>{
             <div class="field">
 				<label>Action</label>
 				<select>
-                    <option>Notify</option>
-                    
+                    <option>Notify</option>       
                 </select>	
             </div>
             <div class="field">
-				<div class="ui radiobutton">
+				<div class="ui radio-button">
 				<input type="radiobutton" class="hidden"/>
 				<label>Activated</label>
-                <input type="radiobutton"  class="hidden"/>
+                <input type="radio-button"  class="hidden"/>
 				<label>Deactivated</label>
 				</div>
             </div>

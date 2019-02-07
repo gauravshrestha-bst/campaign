@@ -18,6 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(flash());
 
+
 //passport config
 app.use(require('express-session')({
 	secret:'no one can do it better',
@@ -28,9 +29,10 @@ app.use(require('express-session')({
 app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use(function(req,res,next){
 	res.locals.currentUser=req.user;
@@ -41,7 +43,7 @@ app.use(function(req,res,next){
 
 app.post('/login',passport.authenticate("local",
 {
-	successRedirect:'/campaigns',
+	successRedirect:'/',
 	failureRedirect:'/login'
 }),function(req,res){
 
