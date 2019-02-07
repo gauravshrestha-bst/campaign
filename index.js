@@ -4,9 +4,9 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const methodOverride=require('method-override');
 const flash=require('connect-flash');
-const passport=require('passport');
 const LocalStrategy=require('passport-local');
 const User=require('./models/User');
+const RuleExecutor = require('./Services/RuleExecutor');
 
 mongoose.connect(
  'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
@@ -16,6 +16,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(flash());
+
 
 //passport config
 app.use(require('express-session')({
@@ -31,6 +32,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use(function(req,res,next){
 	res.locals.currentUser=req.user;
 	res.locals.error=req.flash('error');
@@ -40,7 +42,7 @@ app.use(function(req,res,next){
 
 app.post('/login',passport.authenticate("local",
 {
-	successRedirect:'/campaigns',
+	successRedirect:'/',
 	failureRedirect:'/login'
 }),function(req,res){
 
@@ -72,4 +74,11 @@ app.get('Campaign',(req,res)=>{
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT,(err) => {
+		if(err)
+			throw err;
+		else {
+			console.log('API running on :',PORT);
+			RuleExecutor();
+		}	
+	});
