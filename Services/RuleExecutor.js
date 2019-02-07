@@ -1,24 +1,79 @@
-const interval = 15*60*1000;
 const Rules = require('../models/Rule');
-const Campaing = require('../models/Campaign');
+const Campaign = require('../models/Campaign');
 const _ = require('lodash');
 
-const RuleExecutor = () => {
-	setInterval(()=> {
-		Rules.where({schedule:'15 minute'})
-		.then((data) => {
-			
-			// for each rule get the Campaings that use the rule
-			// for each campaign decide if it should be paused by calling decideStatus
-			// if paused execute the Notify Action
+const RuleExecutor = (schedule) => {
+	Rules.find({
+		schedule
+	})
+	.then((rules) => {
+		
+		// update campaign status
+		let updatedCampaigns = []
+		_.forEach((rules), r => {
+			updatedCampaings.push(updateCampaignStatus(r.campaings));
 		})
-		.catch((err) => {
-			throw err;
+		
+		// might need to be in try/catch and async await
+		let tempPromises = _.map(updatedCampaigns, uc => {
+			Campaign.update({
+				_id: uc._id
+			}, {
+				status: uc.status
+			})
 		})
-	},interval)
+		// filter for paused campaigns
+		return {
+			updatedCampaings: Promise.all(tempPromises),
+			alertCampaings: _.filter(updatedCampaigns, c => !c.status)
+		}
+		
+	})
+	.then(({alertCampaings}) => {
+		
+	})
+	.catch((err) => {
+		throw err;
+	})
 }
 
-const decideStatus = (condition) => {
+const updateCampaignStatus = async (campaignIds) => {
+	const campaigns = await Campaign.find({
+		'_id':{
+			'$in': campaignIds
+		}
+	});
+
+	const updatedCampaigns = _.map(campaigns,(c) => {
+		return {
+			...c,
+			status: shouldPause(c.metrics)
+		}
+	})
+
+	return updatedCampaigns;
+
+}
+
+const shouldPause = (conditions) => {
+	
+	const {eCPM, imporessions, spend, click, eCPC, installs, eCPI} = conditions;
+
+	if(eCPM >= 5 && imporessions >= 1000000){
+		return false; // pause the campaign
+	}
+	else if(spend >= 1000 && eCPC <= 0.20){
+		return false;
+	}
+	else if(clicks >= 50000 && installs <= 100){
+		return false;
+	}
+	else if(eCPI >= 3 && installs >= 100){
+		return false;
+	}
+	else {
+		return true;
+	}
 
 }
 

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const methodOverride=require('method-override');
 const flash=require('connect-flash');
 const LocalStrategy=require('passport-local');
+const scheduler = require('node-cron');
 const User=require('./models/User');
 const RuleExecutor = require('./Services/RuleExecutor');
 
@@ -77,6 +78,10 @@ app.listen(PORT,(err) => {
 			throw err;
 		else {
 			console.log('API running on :',PORT);
-			RuleExecutor();
+			// schedule execution of rules for every 15 minute
+			scheduler.schedule('*/15 * * * *',()=>{
+				RuleExecutor('15 Minute');
+			});
+			// RuleExecutor();
 		}	
 	});

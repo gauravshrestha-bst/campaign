@@ -6,7 +6,8 @@ const campaignSchema = new Schema({
 	metrics:{
 		type: Map,
 		of: Number
-	}
+	},
+	status: Boolean // false -> Paused, True, running
 },{
 	timestamps: true
 })
