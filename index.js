@@ -4,7 +4,6 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const methodOverride=require('method-override');
 const flash=require('connect-flash');
-const passport=require('passport');
 const LocalStrategy=require('passport-local');
 const User=require('./models/User');
 
@@ -72,4 +71,9 @@ app.get('Campaign',(req,res)=>{
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT,(err) => {
+	if(err)
+		throw err;
+	else 
+		console.log('API running on :',PORT);
+});
