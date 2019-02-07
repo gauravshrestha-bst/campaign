@@ -4,7 +4,7 @@ const {Schema} = mongoose;
 const rulesSchema = new Schema({
 	name: String,
 	campaings: [mongoose.Schema.Types.ObjectId],
-	schedule: Date,
+	schedule: String, // Every 15 minute, Every Hour, 12:00 AM
 	conditions: {
 		eCPM: {
 			type: Map,
@@ -35,8 +35,11 @@ const rulesSchema = new Schema({
 			of: Number
 		}
 	},
-	action: Number, // 0 -> Notify, 1 -> Pause, 2 -> Start
-	status: Boolean // true -> Paused, False -> Running
+	action: {
+		type: Number,
+		default: 0 // 0 -> Notify, 1 -> Pause, 2 -> Start
+	},
+	status: Boolean // false -> Paused, true -> Running
 });
 
-mongoose.model('Rules',rulesSchema);
+module.exports = mongoose.model('Rules',rulesSchema);
