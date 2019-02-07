@@ -29,9 +29,9 @@ app.use(require('express-session')({
 app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 
 app.use(function(req,res,next){
@@ -80,10 +80,22 @@ app.listen(PORT,(err) => {
 			throw err;
 		else {
 			console.log('API running on :',PORT);
+			
 			// schedule execution of rules for every 15 minute
 			scheduler.schedule('*/15 * * * *',()=>{
 				RuleExecutor('15 Minute');
 			});
-			// RuleExecutor();
+
+			// schedule execution of rules for every hour
+
+			scheduler.schedule('0 * * * *',() => {
+				RuleExecutor('Every hour');
+			});
+
+			// scheule execution of rules at 12 amm
+			scheduler.schedule('0 0 * * *',() => {
+				RuleExecutor('Every day');
+			})
+			
 		}	
 	});
