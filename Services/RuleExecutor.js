@@ -30,7 +30,7 @@ const RuleExecutor = (schedule) => {
 		
 	})
 	.then(({alertCampaings}) => {
-		
+		// send alerts to campaign maanger	
 	})
 	.catch((err) => {
 		throw err;
@@ -59,7 +59,7 @@ const shouldPause = (conditions) => {
 	
 	const {eCPM, imporessions, spend, click, eCPC, installs, eCPI} = conditions;
 
-	if(eCPM >= 5 && imporessions >= 1000000){
+	if(eCPM >= 5 && impressions >= 1000000){
 		return false; // pause the campaign
 	}
 	else if(spend >= 1000 && eCPC <= 0.20){
