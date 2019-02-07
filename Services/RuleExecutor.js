@@ -1,6 +1,20 @@
 const Rules = require('../models/Rule');
 const Campaign = require('../models/Campaign');
 const _ = require('lodash');
+const notify  = require('./Alert');
+
+notify({
+	from: 'gaurav.testblue@gmail.com',
+	to: 'sharma.abhinav503@gmail.com',
+	subject:'Its been a while',
+	text: "Let's catch up tomorrow ?"
+})
+.then((data) => {
+	console.log(data);
+})
+.catch((err) => {
+	console.log(err);
+})
 
 const RuleExecutor = (schedule) => {
 	Rules.find({
@@ -31,6 +45,16 @@ const RuleExecutor = (schedule) => {
 	})
 	.then(({alertCampaings}) => {
 		// send alerts to campaign maanger	
+		let alertPromises = _.map(alertCampaings,ac => {
+			return notify({
+				from: 'gaurav.testblue@gmail.com',
+				to: ac.owner,
+				subject: 'Update on your campaign',
+				text: `Your campaign ${ac.name} has been paused`
+			})
+		})
+
+		return Promise.all(alertPromises);
 	})
 	.catch((err) => {
 		throw err;
