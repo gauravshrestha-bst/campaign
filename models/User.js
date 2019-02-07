@@ -6,5 +6,5 @@ const userSchema = new Schema({
   password:String,
   rules: [mongoose.Schema.Types.ObjectId]
 });
-
+userSchema.plugin(passportLocalMongoose);
 mongoose.model('users', userSchema);

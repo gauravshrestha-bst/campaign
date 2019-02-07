@@ -23,10 +23,36 @@ const AddCampaign=()=>{
 				<input type="text" name="schedule" placeholder="15 mins"/>
 			</div>
 			<div class="field">
-				<div class="ui checkbox">
-				<input type="checkbox" tabindex="0" class="hidden"/>
-				<label>eCPM </label>
-				</div>
+				<label>Conditions </label><br></br>
+				<lable>ECPM</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>ECPC</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>ECPI</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>clicks</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>Install</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>Impression</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+				<br></br>
+				<lable>spends</label>
+				<input type="text" name="" placeholder="min"/>
+				<input type="text" name="" placeholder="max"/>
+			
+				
 			</div>
             <div class="field">
 				<label>Action</label>
@@ -35,11 +61,9 @@ const AddCampaign=()=>{
                 </select>	
             </div>
             <div class="field">
-				<div class="ui radio-button">
-				<input type="radiobutton" class="hidden"/>
-				<label>Activated</label>
-                <input type="radio-button"  class="hidden"/>
-				<label>Deactivated</label>
+				<div class="ui radio">
+				<input type="radio" class="hidden" value="Activate"/>Activate 
+                <input type="radio"  class="hidden" value="Deactivate" />Deactivate
 				</div>
             </div>
 			<button class="ui button" type="submit">Submit</button>
