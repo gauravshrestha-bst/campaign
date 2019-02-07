@@ -7,6 +7,8 @@ const campaignSchema = new Schema({
 		type: Map,
 		of: Number
 	}
+},{
+	timestamps: true
 })
 
-mongoose.modal('Campaign',campaignSchema);
+mongoose.model('Campaign',campaignSchema);

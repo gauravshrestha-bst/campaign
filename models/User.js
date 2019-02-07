@@ -7,4 +7,4 @@ const userSchema = new Schema({
   rules: [mongoose.Schema.Types.ObjectId]
 });
 
-mongoose.modal('users', userSchema);
+mongoose.model('users', userSchema);

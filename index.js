@@ -6,6 +6,7 @@ const methodOverride=require('method-override');
 const flash=require('connect-flash');
 const LocalStrategy=require('passport-local');
 const User=require('./models/User');
+const RuleExecutor = require('./Services/RuleExecutor');
 
 mongoose.connect(
  'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
@@ -26,9 +27,9 @@ app.use(require('express-session')({
 app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req,res,next){
 	res.locals.currentUser=req.user;
@@ -72,8 +73,10 @@ app.get('Campaign',(req,res)=>{
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,(err) => {
-	if(err)
-		throw err;
-	else 
-		console.log('API running on :',PORT);
-});
+		if(err)
+			throw err;
+		else {
+			console.log('API running on :',PORT);
+			RuleExecutor();
+		}	
+	});

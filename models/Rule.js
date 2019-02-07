@@ -39,4 +39,4 @@ const rulesSchema = new Schema({
 	status: Boolean // true -> Paused, False -> Running
 });
 
-mongoose.modal('Rules',rulesSchema);
+mongoose.model('Rules',rulesSchema);
