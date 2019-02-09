@@ -85,11 +85,11 @@ function isLoggedIn(req,res,next)
 	}
 }
 
-app.post('Campaign',(req,res)=>{
+app.post('Rule',(req,res)=>{
   res.send("campaign added");
 })
 
-app.get('Campaign',(req,res)=>{
+app.get('Rules',(req,res)=>{
   res.send("campaigns");
 });
 

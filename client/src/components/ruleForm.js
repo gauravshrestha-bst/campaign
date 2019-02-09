@@ -3,7 +3,7 @@ import React from 'react';
 const AddRule=()=>{
 	return(
         
-		<form class="ui form">
+		<form class="ui form container" >
 			<div class="field">
 				<label>Rule Name</label>
 				<input type="text" name="rule-name" placeholder="Rule Name"/>

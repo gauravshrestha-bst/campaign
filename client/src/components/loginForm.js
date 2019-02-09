@@ -43,7 +43,7 @@ class LoginForm extends React.Component{
 	}
 	render(){
 		return(
-			<form className="ui form">
+			<form className="ui form container">
 				<div className="field">
 					<label>Email</label>
 					<input onChange={this.handleChange} type="email" name="email" placeholder="Email"/>
