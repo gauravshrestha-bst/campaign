@@ -1,9 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const passport = require('passport');
-const LocalStrategy=require('passport-local').Strategy;
-
+const LocalStrategy=require('passport-local');
 const bodyParser = require('body-parser');
 const methodOverride=require('method-override');
 const flash=require('connect-flash');
@@ -15,17 +13,23 @@ const RuleExecutor = require('./Services/RuleExecutor');
 const cors = require('cors');
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43064b33655aeadc96d8ff55076c5b1a0d89d893
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43064b33655aeadc96d8ff55076c5b1a0d89d893
 app.use(require('express-session')({
 	secret:'no one can do it better',
 	resave:false,
@@ -71,7 +75,6 @@ app.post('/ping',(req,res) => {
     });
 	
 });
-
 
 app.get('/logout',function(req,res){
 	req.logout();
@@ -135,9 +138,22 @@ app.post('/Rule',function(req,res){
 
 	
 });
-app.get('ping',function(req,res){
-	res.send('pong');
+
+app.post('/ping',(req,res) => {
+	console.log(req.body);
+	User.register(new User({ email : req.body.email }), req.body.password, function(err, account) {
+        if (err) {
+        	console.log(err);
+            return res.send('Not ok');
+        }
+
+        passport.authenticate('local')(req, res, function () {
+        	res.send('pong');
+        });
+    });
+	
 });
+
 app.get('Rules',(req,res)=>{
   res.send("campaigns");
 });
