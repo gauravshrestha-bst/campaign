@@ -3,18 +3,18 @@ const Campaign = require('../models/Campaign');
 const _ = require('lodash');
 const notify  = require('./Alert');
 
-notify({
-	from: 'gaurav.shrestha04@gmail.com',
-	to: 'gaurav.testblue@gmail.com',
-	subject:'Its been a while',
-	text: "Let's catch up tomorrow ?"
-})
-.then((data) => {
-	console.log(data);
-})
-.catch((err) => {
-	console.log(err);
-})
+// notify({
+// 	from: 'gaurav.shrestha04@gmail.com',
+// 	to: 'gaurav.testblue@gmail.com',
+// 	subject:'Its been a while',
+// 	text: "Let's catch up tomorrow ?"
+// })
+// .then((data) => {
+// 	console.log(data);
+// })
+// .catch((err) => {
+// 	console.log(err);
+// })
 
 const RuleExecutor = (schedule) => {
 	Rules.find({
