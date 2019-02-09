@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 class LoginForm extends React.Component{
 	state={
-		email:'hghg',
+		email:'',
 		password:''
 	}
 	handleChange=(event)=> {
@@ -14,10 +14,11 @@ class LoginForm extends React.Component{
 		//make axios request 
 		e.preventDefault();
 		console.log(this.state.email);
+		console.log(this.state.password);
 
 		axios
 		.post('/login', {
-			username: this.state.username,
+			email: this.state.email,
 			password: this.state.password
 		})
 		.then(response => {

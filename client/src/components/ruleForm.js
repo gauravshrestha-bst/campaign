@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddCampaign=()=>{
+const AddRule=()=>{
 	return(
         
 		<form class="ui form">
@@ -23,32 +23,32 @@ const AddCampaign=()=>{
 				<input type="text" name="schedule" placeholder="15 mins"/>
 			</div>
 			<div class="field">
-				<label>Conditions </label><br></br>
-				<lable>ECPM</label>
+				<label>Conditions </label>
+				<label>ECPM</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>ECPC</label>
+				<label>ECPC</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>ECPI</label>
+				<label>ECPI</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>clicks</label>
+				<label>clicks</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>Install</label>
+				<label>Install</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>Impression</label>
+				<label>Impression</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 				<br></br>
-				<lable>spends</label>
+				<label>spends</label>
 				<input type="text" name="" placeholder="min"/>
 				<input type="text" name="" placeholder="max"/>
 			
@@ -60,7 +60,8 @@ const AddCampaign=()=>{
                     <option>Notify</option>       
                 </select>	
             </div>
-            <div class="field">
+            <div class="field" name="status">
+				<label>Status</label>
 				<div class="ui radio">
 				<input type="radio" class="hidden" value="Activate"/>Activate 
                 <input type="radio"  class="hidden" value="Deactivate" />Deactivate
@@ -72,4 +73,4 @@ const AddCampaign=()=>{
 		)
 };
 
-export default AddCampaign;
+export default AddRule;

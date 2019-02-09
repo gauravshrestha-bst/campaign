@@ -4,8 +4,8 @@ const _ = require('lodash');
 const notify  = require('./Alert');
 
 notify({
-	from: 'gaurav.testblue@gmail.com',
-	to: 'sharma.abhinav503@gmail.com',
+	from: 'gaurav.shrestha04@gmail.com',
+	to: 'gaurav.testblue@gmail.com',
 	subject:'Its been a while',
 	text: "Let's catch up tomorrow ?"
 })
@@ -47,7 +47,7 @@ const RuleExecutor = (schedule) => {
 		// send alerts to campaign maanger	
 		let alertPromises = _.map(alertCampaings,ac => {
 			return notify({
-				from: 'gaurav.testblue@gmail.com',
+				from: 'gaurav.shrestha04@gmail.com',
 				to: ac.owner,
 				subject: 'Update on your campaign',
 				text: `Your campaign ${ac.name} has been paused`
@@ -81,7 +81,7 @@ const updateCampaignStatus = async (campaignIds) => {
 
 const shouldPause = (conditions) => {
 	
-	const {eCPM, imporessions, spend, click, eCPC, installs, eCPI} = conditions;
+	const {eCPM, impressions, spend, click, eCPC, installs, eCPI} = conditions;
 
 	if(eCPM >= 5 && impressions >= 1000000){
 		return false; // pause the campaign
