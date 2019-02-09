@@ -39,7 +39,10 @@ const rulesSchema = new Schema({
 		type: Number,
 		default: 0 // 0 -> Notify, 1 -> Pause, 2 -> Start
 	},
-	status: Boolean // false -> Paus, true -> Run
+	status: {
+		type: Boolean,
+		default: true
+	} // false -> Paused, true -> Run
 });
 
 module.exports = mongoose.model('Rules',rulesSchema);
