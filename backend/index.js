@@ -7,6 +7,8 @@ const methodOverride=require('method-override');
 const flash=require('connect-flash');
 const scheduler = require('node-cron');
 const User=require('./models/User');
+const Rule=require('./models/Rule');
+const Canpaign=require('./models/Campaign');
 const RuleExecutor = require('./Services/RuleExecutor');
 const cors = require('cors');
 
@@ -29,34 +31,39 @@ app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
 
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function(err, user) {
-//       if (err) { return done(err); }
-//       if (!user) {
-//         return done(null, false, { message: 'Incorrect username.' });
-//       }
-//       if (!user.validPassword(password)) {
-//         return done(null, false, { message: 'Incorrect password.' });
-//       }
-//       return done(null, user);
-//     });
-//   }
-// ));
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+app.post('/login',
+passport.authenticate('local', { successRedirect: '/',
+																 failureRedirect: '/login',
+																 failureFlash: true })
+);
 
-app.post('/login',function(req,res){
-	console.log("in login post");
-	console.log(req.body.username);
-	username=req.body.username;
-	User.findOne({}, function(err, user) {
-		if (err) { console.log(error) }
-		else if (!user) {
-			console.log("incorrect username or password");
-		}
+// app.post('/login',function(req,res){
+// 	console.log("in login post");
+// 	console.log(req.body.username);
+// 	username=req.body.username;
+// 	User.findOne({}, function(err, user) {
+// 		if (err) { console.log(error) }
+// 		else if (!user) {
+// 			console.log("incorrect username or password");
+// 		}
 
-		else {res.send('hey');}
-	});
-});
+// 		else {res.send('hey');}
+// 	});
+// });
 
 app.get('/logout',function(req,res){
 	req.logout();
@@ -75,10 +82,24 @@ function isLoggedIn(req,res,next)
 	}
 }
 
-app.post('Rule',(req,res)=>{
-  res.send("campaign added");
-})
-
+app.post('/Rule',function(req,res){
+	// let rule=req.body.ruleName;
+	// let campaign=req.body.campaign;
+	// let schedule=req.body.schedule;
+	// let action=action;
+	// let newRule={name:rule,campaign:campaign,schedule:schedule,action:action};
+	// Campaign.create(newCamp,function(err,newCamp){
+	// 	if(err) console.log(err);
+	// 	else{
+	// 		console.log(newCamp);
+	// 	}
+	// })
+	// res.redirect('/main');
+	res.send(req.body);
+});
+app.get('ping',function(req,res){
+	res.send('pong');
+});
 app.get('Rules',(req,res)=>{
   res.send("campaigns");
 });
