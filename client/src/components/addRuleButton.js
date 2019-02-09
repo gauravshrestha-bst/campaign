@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Home=()=>{
+const Main=()=>{
 	return(
-		<form class="ui form">
+		<form class="ui form container">
 			<a class="ui button" type="submit" href='/addRule'>Add Rule</a>
 		</form>
 		)
 };
 
-export default Home;
+export default Main;
