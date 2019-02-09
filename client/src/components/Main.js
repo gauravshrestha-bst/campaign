@@ -1,12 +1,12 @@
 import React from 'react';
-import addRuleButton from './addRuleButton';
-
+import AddRuleButton from './addRuleButton';
+import RulesTable from './showRulesTable'
 class Main extends React.Component{
     render(){
         return(
             <div>
-                <addRuleButton/>
-                <showRulesTable/>
+                <AddRuleButton/>
+                <RulesTable/>
             </div>
             )
     }

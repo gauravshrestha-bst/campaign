@@ -15,9 +15,9 @@ mongoose.connect(
  'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
   );
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 const app = express();
 
@@ -25,61 +25,38 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
-
+app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
-//passport config
-app.use(require('express-session')({
-	secret:'no one can do it better',
-	resave:false,
-	saveUninitialised:false
-}));
 
-// app.use(methodOverride('_method'));
-app.use(passport.initialize());
-app.use(passport.session());
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function(err, user) {
+//       if (err) { return done(err); }
+//       if (!user) {
+//         return done(null, false, { message: 'Incorrect username.' });
+//       }
+//       if (!user.validPassword(password)) {
+//         return done(null, false, { message: 'Incorrect password.' });
+//       }
+//       return done(null, user);
+//     });
+//   }
+// ));
 
-// passport.use({
-//     usernameField: 'email',
-//     passwordField: 'password'
-//   },
-//   new LocalStrategy(
-// 	function(email, password, done) {
-// 		console.log("inside local strategy");
-// 		console.log(email);
-// 	  User.findOne({ email: email }, function(err, user) {
-// 		if (err) { return done(err); }
-// 		if (!user) {
-// 		  return done(null, false, { message: 'Incorrect username.' });
-// 		}
-// 		if (!user.validPassword(password)) {
-// 		  return done(null, false, { message: 'Incorrect password.' });
-// 		}
-// 		return done(null, user);
-// 	  });
-// 	}
-//   ));
+app.post('/login',function(req,res){
+	console.log("in login post");
+	console.log(req.body.username);
+	username=req.body.username;
+	User.findOne({}, function(err, user) {
+		if (err) { console.log(error) }
+		else if (!user) {
+			console.log("incorrect username or password");
+		}
 
-app.get('/login',(req,res) => {
-	res.send('route on front end');
-})
-
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
-
-
-app.get('/ping',(req,res) => {
-	res.send('pong');
-})
-
-// app.post('/login',passport.authenticate("local",
-// {
-// 	successRedirect:'/',
-// 	failureRedirect:'/login'
-// }));
+		else {res.send('hey');}
+	});
+});
 
 app.get('/logout',function(req,res){
 	req.logout();
