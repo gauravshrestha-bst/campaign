@@ -15,17 +15,6 @@ const RuleExecutor = require('./Services/RuleExecutor');
 const cors = require('cors');
 
 
-<<<<<<< HEAD
-mongoose.connect(
- 'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
-  );
-
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
-=======
->>>>>>> 805c0fca46498545457f4e40f2e196a0ec8e16e9
 const app = express();
 
 app.use(cors());
@@ -35,42 +24,6 @@ app.use(flash());
 app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
-<<<<<<< HEAD
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-app.post('/login',
-passport.authenticate('local', { successRedirect: '/',
-																 failureRedirect: '/login',
-																 failureFlash: true })
-);
-
-// app.post('/login',function(req,res){
-// 	console.log("in login post");
-// 	console.log(req.body.username);
-// 	username=req.body.username;
-// 	User.findOne({}, function(err, user) {
-// 		if (err) { console.log(error) }
-// 		else if (!user) {
-// 			console.log("incorrect username or password");
-// 		}
-
-// 		else {res.send('hey');}
-// 	});
-// });
-=======
 app.use(require('express-session')({
 	secret:'no one can do it better',
 	resave:false,
@@ -116,7 +69,6 @@ app.post('/ping',(req,res) => {
     });
 	
 });
->>>>>>> 805c0fca46498545457f4e40f2e196a0ec8e16e9
 
 app.get('/logout',function(req,res){
 	req.logout();
