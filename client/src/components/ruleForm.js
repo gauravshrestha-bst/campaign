@@ -1,20 +1,23 @@
 import React from 'react';
 import axios from 'axios';
+const $ = window.$;
+
 class AddRule extends React.Component{
 
 	state={
 		ruleName:'',
 		campaign:'Campaign A',
 		schedule:'15 minutes',
-		ecpm:null,
-		ecpc:null,
-		ecpi:null,
-		clicks:null,
-		install:null,
-		impression:null,
-		spends:null,
 		action:'Notify',
-		conditions:{}
+		conditions: {
+			eCPM: 0,
+			eCPC: 0,
+			eCPCI: 0,
+			installs: 0,
+			impressions: 0,
+			spend: 0,
+			clicks: 0
+		}
 	}
 	handleChange=(event)=> {
         this.setState({
@@ -24,35 +27,36 @@ class AddRule extends React.Component{
 	handleSubmit=(e)=>{
 		//make axios request 
 		e.preventDefault();
-		this.setState(
-			{conditions:{
-			ecpm:this.state.ecpm,
-			ecpc:this.state.ecpc,
-			ecpi:this.state.ecpi,
-			clicks:this.state.clicks,
-			install:this.state.install,
-			impression:this.state.impression,
-			spends:this.state.spends
-		}});
+
+		const formData = $('#rulesForm').serializeArray();
+		
+		
+		const postData = {
+			ruleName: formData.filter(f => f.name === "ruleName")[0].value,
+			campaign: formData.filter(f => f.name === "campaign")[0].value,
+			schedule: formData.filter(f => f.name === "schedule")[0].value,
+			action: formData.filter(f => f.name === "action")[0].value,
+			conditions: {
+				eCPM: formData.filter(f => f.name === "ecpm")[0].value,
+				eCPC: formData.filter(f => f.name === "ecpc")[0].value,
+				eCPCI: formData.filter(f => f.name === "ecpi")[0].value,
+				installs: formData.filter(f => f.name === "installs")[0].value,
+				impressions: formData.filter(f => f.name === "impressions")[0].value,
+				spend: formData.filter(f => f.name === "spend")[0].value,
+				clicks: formData.filter(f => f.name === "clicks")[0].value
+			}
+		}
+	
+		console.log(postData);
 
 		axios
-		.post('http://localhost:5000/Rule', {
-			ruleName: this.state.ruleName,
-			campaign: this.state.campaign,
-			schedule:this.state.schedule,
-			action:this.state.action,
-			conditions:this.state.conditions
-
-		})
+		.post('http://localhost:5000/Rule', postData)
 		.then(response => {
-			console.log(' response: ')
-			console.log(response)
-			if (response.status === 200) {
-
-			}
+			console.log(' response: ',response)
+			this.setState(postData);
+			
 		}).catch(error => {
-			console.log('login error: ')
-			console.log(error);
+			console.log('login error: ',error)
 			
 		})
 	}
@@ -60,7 +64,7 @@ class AddRule extends React.Component{
 	render(){
 		return(
 			
-			<form className="ui form container" onSubmit={this.handleSubmit}>
+			<form className="ui form container" id="rulesForm" onSubmit={this.handleSubmit}>
 				<div className="field">
 					<label>Rule Name</label>
 					<input onChange={this.handleChange} type="text" name="ruleName" placeholder="Rule Name"/>
@@ -96,12 +100,12 @@ class AddRule extends React.Component{
 					<input onChange={this.handleChange} type="text" name="clicks" placeholder="max"/>
 					<br></br>
 					<label>Install</label>
-					<input onChange={this.handleChange} type="text" name="install" placeholder="max"/>
+					<input onChange={this.handleChange} type="text" name="installs" placeholder="max"/>
 					<label>Impression</label>
-					<input onChange={this.handleChange} type="text" name="impression" placeholder="max"/>
+					<input onChange={this.handleChange} type="text" name="impressions" placeholder="max"/>
 					<br></br>
-					<label>spends</label>
-					<input onChange={this.handleChange} type="text" name="spends" placeholder="max"/>
+					<label>spend</label>
+					<input onChange={this.handleChange} type="text" name="spend" placeholder="max"/>
 				
 					
 				</div>
@@ -112,7 +116,7 @@ class AddRule extends React.Component{
 					</select>	
 				</div>
 				
-				<button class="ui button" type="submit">Submit</button>
+				<button className="ui button" type="submit">Submit</button>
 			</form>
 		   
 			)
