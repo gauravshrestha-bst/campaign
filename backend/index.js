@@ -13,14 +13,6 @@ const RuleExecutor = require('./Services/RuleExecutor');
 const cors = require('cors');
 
 
-mongoose.connect(
- 'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
-  );
-
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
 const app = express();
 
 app.use(cors());
@@ -30,39 +22,51 @@ app.use(flash());
 app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
+app.use(require('express-session')({
+	secret:'no one can do it better',
+	resave:false,
+	saveUninitialised:false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//passport config
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// connect mongoose
+mongoose.connect('mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task');
+
+app.get('/login',(req,res) => {
+	res.send('route on front end');
+})
+
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    // res.redirect('/');
+    res.send('OK');
+  });
+
+
+app.post('/ping',(req,res) => {
+	console.log(req.body);
+	User.register(new User({ email : req.body.email }), req.body.password, function(err, account) {
+        if (err) {
+        	console.log(err);
+            return res.send('Not ok');
+        }
+
+        passport.authenticate('local')(req, res, function () {
+        	res.send('pong');
+        });
     });
-  }
-));
-app.post('/login',
-passport.authenticate('local', { successRedirect: '/',
-																 failureRedirect: '/login',
-																 failureFlash: true })
-);
-
-// app.post('/login',function(req,res){
-// 	console.log("in login post");
-// 	console.log(req.body.username);
-// 	username=req.body.username;
-// 	User.findOne({}, function(err, user) {
-// 		if (err) { console.log(error) }
-// 		else if (!user) {
-// 			console.log("incorrect username or password");
-// 		}
-
-// 		else {res.send('hey');}
-// 	});
-// });
+	
+});
 
 app.get('/logout',function(req,res){
 	req.logout();
