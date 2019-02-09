@@ -16,8 +16,7 @@ class LoginForm extends React.Component{
 		console.log(this.state.email);
 		console.log(this.state.password);
 
-		axios
-		.post('/login', {
+		axios.post('http://localhost:5000/login', {
 			email: this.state.email,
 			password: this.state.password
 		})
@@ -49,11 +48,11 @@ class LoginForm extends React.Component{
 					<label>Email</label>
 					<input onChange={this.handleChange} type="email" name="email" placeholder="Email"/>
 				</div>
-				<div class="field">
+				<div className="field">
 					<label>Password</label>
 					<input onChange={this.handleChange} type="password" name='password' placeholder="Password"/>
 				</div>
-				<button class="ui button" type="submit" onClick={this.handleSubmit}>Submit</button>
+				<button className="ui button" type="submit" onClick={this.handleSubmit}>Submit</button>
 			</form>
 			)
 	}
