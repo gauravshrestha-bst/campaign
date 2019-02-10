@@ -7,8 +7,7 @@ const campaignSchema = new Schema({
 		type: Map,
 		of: Number
 	},
-	status: Boolean, // false -> Paused, True, running,
-	owner: String
+	status: Boolean // false -> Paused, True, running,
 },{
 	timestamps: true
 })

@@ -3,8 +3,7 @@ import axios from 'axios';
 class LoginForm extends React.Component{
 	state={
 		email:'',
-		password:'',
-		redirectTo:''
+		password:''
 	}
 	handleChange=(event)=> {
         this.setState({
@@ -47,8 +46,8 @@ class LoginForm extends React.Component{
 		return(
 			<form onSubmit={this.handleSubmit} className="ui form container" method="post" action='/'>
 				<div className="field">
-					<label>Username</label>
-					<input onChange={this.handleChange} type="text" name="email" placeholder="Email"/>
+					<label>Email</label>
+					<input onChange={this.handleChange} type="email" name="email" placeholder="Email"/>
 				</div>
 				<div class="field">
 					<label>Password</label>

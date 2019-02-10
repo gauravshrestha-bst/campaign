@@ -1,6 +1,19 @@
 import React from 'react';
 
-const RulesTable=()=>{
+const RulesTable=({rules})=>{
+    console.log(rules);
+    const renderedList=rules.map(rule=>{
+        return(
+            <tr>
+            <td>{rule.ruleName}</td>
+            <td>{rule.campaigns}</td>
+            <td class="negative">{rule.schedule}</td>
+            <td>{rule.status}</td>
+            <td>{rule.action}</td>
+            <td ><a href='#'>Edit</a></td>
+            </tr>
+        )
+    });
 	return(
 		<table class="ui celled table">
             <thead>
@@ -9,43 +22,12 @@ const RulesTable=()=>{
                 <th>Campaigns</th>
                 <th>Scedule</th>
                 <th>Status</th>
-                <th>Scedule</th>
+                <th>Action</th>
                 <th>edit</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <td>No Name Specified</td>
-                <td>Unknown</td>
-                <td class="negative">None</td>
-                <td>No Name Specified</td>
-                <td>Unknown</td>
-                <td class="negative">None</td>
-                </tr>
-                <tr class="positive">
-                <td>Jimmy</td>
-                <td><i class="icon checkmark"></i> Approved</td>
-                <td>None</td>
-                <td>No Name Specified</td>
-                <td>Unknown</td>
-                <td class="negative">None</td>
-                </tr>
-                <tr>
-                <td>Jamie</td>
-                <td>Unknown</td>
-                <td class="positive"><i class="icon close"></i> Requires call</td>
-                <td>No Name Specified</td>
-                <td>Unknown</td>
-                <td class="negative">None</td>
-                </tr>
-                <tr class="negative">
-                <td>Jill</td>
-                <td>Unknown</td>
-                <td>None</td>
-                <td>No Name Specified</td>
-                <td>Unknown</td>
-                <td class="negative">None</td>
-                </tr>
+                {renderedList}
             </tbody>
         </table>
 		)
