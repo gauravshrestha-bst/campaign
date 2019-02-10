@@ -64,7 +64,7 @@ class AddRule extends React.Component{
 	render(){
 		return(
 			
-			<form className="ui form container" id="rulesForm" onSubmit={this.handleSubmit}>
+			<form className="ui form container" id="rulesForm" onSubmit={this.handleSubmit} action='/'>
 				<div className="field">
 					<label>Rule Name</label>
 					<input onChange={this.handleChange} type="text" name="ruleName" placeholder="Rule Name"/>

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import AddRuleButton from './addRuleButton';
 import RulesTable from './showRulesTable'
 class Main extends React.Component{
@@ -11,8 +12,7 @@ class Main extends React.Component{
 			
 		}).catch(error => {
 			console.log('login error: ')
-			console.log(error);
-			
+			console.log(error);	
 		})
 
     }

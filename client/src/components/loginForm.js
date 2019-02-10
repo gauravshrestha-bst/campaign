@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 class LoginForm extends React.Component{
 	state={
-		username:'',
-		password:''
+		email:'',
+		password:'',
+		redirectTo:''
 	}
 	handleChange=(event)=> {
         this.setState({
@@ -17,23 +18,24 @@ class LoginForm extends React.Component{
 
 		axios
 		.post('http://localhost:5000/login', {
-			username: this.state.username,
+			email: this.state.email,
 			password: this.state.password
 		})
 		.then(response => {
 			console.log('login response: ')
 			console.log(response)
-			// if (response.status === 200) {
-			// 	// update App.js state
-			// 	this.props.updateUser({
-			// 		loggedIn: true,
-			// 		username: response.data.username
-			// 	})
-			// 	// update the state to redirect to home
-			// 	this.setState({
-			// 		redirectTo: '/'
-			// 	})
-			// }
+			if (response.status === 200) {
+				// update App.js state
+				// this.props.updateUser({
+				// 	loggedIn: true,
+				// 	email: response.data.email
+				// })
+				// update the state to redirect to home
+				this.setState({
+					redirectTo: '/main'
+				})
+			console.log(this.state.redirectTo);
+			}
 		}).catch(error => {
 			console.log('login error: ')
 			console.log(error);
@@ -43,10 +45,10 @@ class LoginForm extends React.Component{
 	}
 	render(){
 		return(
-			<form onSubmit={this.handleSubmit} className="ui form container" method="POST">
+			<form onSubmit={this.handleSubmit} className="ui form container" method="post" action='/'>
 				<div className="field">
 					<label>Username</label>
-					<input onChange={this.handleChange} type="text" name="username" placeholder="Username"/>
+					<input onChange={this.handleChange} type="text" name="email" placeholder="Email"/>
 				</div>
 				<div class="field">
 					<label>Password</label>

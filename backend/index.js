@@ -13,10 +13,6 @@ const RuleExecutor = require('./Services/RuleExecutor');
 const cors = require('cors');
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 43064b33655aeadc96d8ff55076c5b1a0d89d893
 const app = express();
 
 app.use(cors());
@@ -26,10 +22,6 @@ app.use(flash());
 app.use(bodyParser.json())
 app.use(require('morgan')('dev'));
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 43064b33655aeadc96d8ff55076c5b1a0d89d893
 app.use(require('express-session')({
 	secret:'no one can do it better',
 	resave:false,
@@ -39,6 +31,15 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(require('express-session')({
+	secret:'no one can do it better',
+	resave:false,
+	saveUninitialised:false
+}));
+
+app.use(methodOverride('_method'));
+
+passport.use(new LocalStrategy(User.authenticate()));
 
 //passport config
 passport.use(User.createStrategy());
@@ -49,16 +50,19 @@ passport.deserializeUser(User.deserializeUser());
 // connect mongoose
 mongoose.connect('mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task');
 
-app.get('/login',(req,res) => {
-	res.send('route on front end');
+app.get('/',function(req,res){
+	res.redirect('/login');
 })
-
 app.post('/login', 
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
     // res.redirect('/');
     res.send('OK');
   });
+
+app.get('/login',(req,res) => {
+	res.send('route on front end');
+})
 
 
 app.post('/ping',(req,res) => {
@@ -83,7 +87,7 @@ app.get('/logout',function(req,res){
 });
 
 
-app.post('/Rule',function(req,res){
+app.post('/Rule',isLoggedIn,function(req,res){
 	
 	
 	// create new rule here;
@@ -157,6 +161,16 @@ app.post('/ping',(req,res) => {
 app.get('Rules',(req,res)=>{
   res.send("campaigns");
 });
+
+function isLoggedIn(req,res,next)
+{
+	if(req.isAuthenticated()){
+		return next();
+	}
+	else{
+		res.send('not logged in')
+	}
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,(err) => {
