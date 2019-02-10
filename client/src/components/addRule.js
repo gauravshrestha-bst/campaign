@@ -27,7 +27,7 @@ class AddRule extends React.Component{
 	handleSubmit=(e)=>{
 		//make axios request 
 		e.preventDefault();
-
+		console.log('in handlerule');
 		const formData = $('#rulesForm').serializeArray();
 		
 		

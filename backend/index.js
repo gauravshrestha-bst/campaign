@@ -14,90 +14,57 @@ const cors = require('cors');
 
 
 mongoose.connect(
- 'mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task'
+ 'mongodb://gaurav:Gaurav-1995@ds127995.mlab.com:27995/campaign-task'
   );
-
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
-
 const app = express();
 
 app.use(cors());
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(flash());
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(require('express-session')({
+	secret:'no one can do it better',
+	resave:false,
+	saveUninitialised:false
+}));
+
 app.use(require('morgan')('dev'));
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-app.post('/login',
-passport.authenticate('local', { successRedirect: '/',
-		failureRedirect: '/login'})
-);
+app.use(passport.initialize());
+app.use(passport.session());
 
-// app.post('/login',function(req,res){
-// 	console.log("in login post");
-// 	console.log(req.body.username);
-// 	username=req.body.username;
-// 	User.findOne({}, function(err, user) {
-// 		if (err) { console.log(error) }
-// 		else if (!user) {
-// 			console.log("incorrect username or password");
-// 		}
 
-// 		else {res.send('hey');}
-// 	});
-// });
 
-app.get('/logout',function(req,res){
-	req.logout();
-	req.flash('success','you are logged out');
-	res.redirect('/confessions');
-});
+app.use(methodOverride('_method'));
+//passport config
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-function isLoggedIn(req,res,next)
-{
+// connect mongoose
+mongoose.connect('mongodb://gaurav:Gaurav-1995@ds123465.mlab.com:23465/tyroo-task');
+
+app.get('/',function(req,res){
 	if(req.isAuthenticated()){
-		return next();
+		res.send('Authenticated');
 	}
 	else{
-		res.redirect('/login')
+		res.send('UnAuthenticated')
 	}
-}
-
-app.post('/Rule',isLoggedIn,function(req,res){
-	// let rule=req.body.ruleName;
-	// let campaign=req.body.campaign;
-	// let schedule=req.body.schedule;
-	// let action=action;
-	// let newRule={name:rule,campaign:campaign,schedule:schedule,action:action};
-	// Campaign.create(newCamp,function(err,newCamp){
-	// 	if(err) console.log(err);
-	// 	else{
-	// 		console.log(newCamp);
-	// 	}
-	// })
-	// res.redirect('/main');
-	res.send(req.body);
 });
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.send('OK');
+  });
 
+app.get('/login',(req,res) => {
+	res.send('route on front end');
+})
+
+//used to register user
 app.post('/ping',(req,res) => {
 	console.log(req.body);
-	User.register(new User({ email:req.body.email }), req.body.password, function(err, account) {
+	User.register(new User({ email : req.body.email }), req.body.password, function(err, account) {
         if (err) {
         	console.log(err);
             return res.send('Not ok');
@@ -105,10 +72,68 @@ app.post('/ping',(req,res) => {
 
         passport.authenticate('local')(req, res, function () {
         	res.send('pong');
-        });
-    });
-	
+		});
+	});
 });
+
+app.get('/logout',function(req,res){
+	req.logout();
+	res.send('logout');
+});
+
+
+app.post('/Rule',function(req,res){
+		// create new rule here;
+	console.log('server rule');
+
+	let rule = {
+		...req.body,
+		conditions: {
+			eCPM: {
+				max: req.body.conditions.eCPM,
+				min: 0
+			},
+			eCPC: {
+				max: req.body.conditions.eCPC,
+				min: 0
+			},
+			eCPCI: {
+				max: req.body.conditions.eCPCI,
+				min: 0
+			},
+			clicks: {
+				max: req.body.conditions.clicks,
+				min: 0
+			},
+			installs: {
+				max: req.body.conditions.installs,
+				min: 0
+			},
+			impressions: {
+				max: req.body.conditions.impressions,
+				min: 0
+			},
+			spend: {
+				max: req.body.conditions.spend,
+				min: 0
+			}
+		},
+		action: req.body.action === "Notify" ? 1 : 0
+	}
+	Rule.create(rule)
+	.then((rule) => {
+		console.log('Rule created: ',rule);
+		res.send('Rule created')
+	})
+	.catch((err) => {
+		
+		console.log(err);
+		res.send(err);
+	
+	});
+});
+	
+
 
 
 app.get('/Rules',function(req,res){
@@ -120,6 +145,19 @@ app.get('/Rules',function(req,res){
 	});
 	
 });
+
+function isLoggedIn(req,res,next)
+{
+	console.log('inside is  logged in');
+	console.log(req);
+	if(req.isAuthenticated()){
+		return next();
+	}
+	else{
+		res.redirect('/login')
+	}
+}
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,(err) => {
 		if(err)

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import Router from './routes/route';
+import App from './components/App';
 // ReactDOM.render(<LoginForm />, document.getElementById('root'));
 
 ReactDOM.render((
-    <Router/>
+    <App/>
   ), document.getElementById('root'));

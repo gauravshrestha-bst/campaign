@@ -24,20 +24,13 @@ class LoginForm extends React.Component{
 			console.log('login response: ')
 			console.log(response)
 			if (response.status === 200) {
-				// update App.js state
-				// this.props.updateUser({
-				// 	loggedIn: true,
-				// 	email: response.data.email
-				// })
-				// update the state to redirect to home
-				this.setState({
-					redirectTo: '/main'
-				})
-			console.log(this.state.redirectTo);
-			}
+				console.log("login successfull");
+				this.props.handleLogInState(true)
+				}
 		}).catch(error => {
 			console.log('login error: ')
 			console.log(error);
+			this.props.handleLogInState(false)
 			
 		})
 
@@ -45,6 +38,7 @@ class LoginForm extends React.Component{
 	render(){
 		return(
 			<form onSubmit={this.handleSubmit} className="ui form container" method="post" action='/'>
+			<h1>Login</h1>
 				<div className="field">
 					<label>Email</label>
 					<input onChange={this.handleChange} type="email" name="email" placeholder="Email"/>

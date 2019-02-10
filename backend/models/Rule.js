@@ -3,7 +3,12 @@ const {Schema} = mongoose;
 
 const rulesSchema = new Schema({
 	name: String,
-	campaings: [mongoose.Schema.Types.ObjectId],
+	campaings: {
+		id:{
+			[mongoose.Schema.Types.ObjectId]
+		}
+		
+	}
 	schedule: String, // Every 15 minute, Every Hour, 12:00 AM
 	conditions: {
 		eCPM: {
